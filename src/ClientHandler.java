@@ -35,34 +35,29 @@ import java.net.*;
                 try
                 { 
                     // receive the string 
-                    received = dis.readUTF(); 
-                    Server.area.append("\n"+this.name+" : "+received);
-                    System.out.println(this.name+" : "+received); 
-
-                    if(received.equals("logout")){ 
-                       --Server.i;
-                       Server.area.append("\n"+this.name+" left");
+                    received = dis.readUTF();
+                    
+                    if(received.equalsIgnoreCase("logout")){
+                    --Server.i;
+                    Server.active.remove(this);
+                    Server.area.append("\n"+this.name+" left");
                        for (ClientHandler mc : Server.active)  
-                    { 
-                            mc.dos.writeUTF(this.name+" left"); 
+                        { 
+                                mc.dos.writeUTF(this.name+" left"); 
 
-                    }
-                        this.isloggedin=false; 
-                        this.s.close(); 
+                        }
                         break; 
-                    }else{ 
-
+                    }
+                    Server.area.append("\n"+this.name+" : "+received);
                     for (ClientHandler mc : Server.active)  
                     {   
                         mc.dos.writeUTF(this.name+" : "+received); 
 
                     }
-                   }
-                      
+                    
                 } catch (IOException e) { 
                     Server.area.append("\nSocket shutdown unexpectedly!!!!!");
-                    //debugging socket close problem
-                    e.printStackTrace();
+                    System.out.println("Socket shutdown unexpectedly!!!!!");
                     break;
                 } 
 

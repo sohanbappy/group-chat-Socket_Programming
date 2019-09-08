@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
   
 /**
@@ -29,6 +28,7 @@ import javax.swing.JTextArea;
         //variable declaration
 	private JPanel contentPane;
 	JTextField textField,textField_2;
+        JButton btnNewButton_1,btnNewButton_2,btnNewButton_3;
         static JTextArea area;
         final static int ServerPort = 1234; 
         String room_key;
@@ -45,14 +45,14 @@ import javax.swing.JTextArea;
 		setVisible(true);
 		setResizable(false);
 		setTitle("Client Module");
-		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200,50, 600, 610);
+                
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		textField = new JTextField();
 		textField.setBounds(28, 62, 165, 34);
@@ -60,7 +60,7 @@ import javax.swing.JTextArea;
 		textField.setText("rokomari_intern");
 		contentPane.add(textField);
 		
-		JButton btnNewButton_1 = new JButton("Connect");
+		btnNewButton_1 = new JButton("Connect");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -74,20 +74,25 @@ import javax.swing.JTextArea;
 		btnNewButton_1.setBounds(195, 62, 142, 34);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("Log Out");
+		btnNewButton_2 = new JButton("Log Out");
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_2.setBackground(Color.RED);
 		btnNewButton_2.setForeground(Color.WHITE);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
                             try {
-                                logOutTask();
+                                sendTask("logout");
+                                //disabling send button
+                                btnNewButton_2.setEnabled(false);
+                                btnNewButton_3.setEnabled(false);
+                                btnNewButton_1.setEnabled(true);
                             } catch (IOException ex) {
                                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
 		});
 		btnNewButton_2.setBounds(340, 62, 220, 34);
+                btnNewButton_2.setEnabled(false);
 		contentPane.add(btnNewButton_2);
 		
 		
@@ -104,20 +109,21 @@ import javax.swing.JTextArea;
 		textField_2.setText("ur text goes here");
 		contentPane.add(textField_2);
 		
-		JButton btnNewButton_3 = new JButton("Send");
+		btnNewButton_3 = new JButton("Send");
 		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_3.setBackground(Color.DARK_GRAY);
 		btnNewButton_3.setForeground(Color.GREEN);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
                             try {
-                                sendTask();
+                                sendTask(textField_2.getText());
                             } catch (IOException ex) {
                                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                             }
 			}
 		});
 		btnNewButton_3.setBounds(340, 510, 220, 34);
+                btnNewButton_3.setEnabled(false);
 		contentPane.add(btnNewButton_3);
 		
 		JLabel lblId = new JLabel("*Enter Room Key");
@@ -132,7 +138,7 @@ import javax.swing.JTextArea;
 		lblId_1.setBounds(340, 155, 200, 20);
 		contentPane.add(lblId_1);
 		
-		JLabel lblId_2 = new JLabel("*Type=> logout <= to left ");
+		JLabel lblId_2 = new JLabel("*Press logout ==> to left ");
 		lblId_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblId_2.setForeground(Color.BLACK);
 		lblId_2.setBounds(340, 180, 200, 20);
@@ -148,6 +154,10 @@ import javax.swing.JTextArea;
             
             room_key = textField.getText();
             if(room_key.equalsIgnoreCase("rokomari_intern")){
+                //disabling connect button
+                btnNewButton_1.setEnabled(false);
+                btnNewButton_2.setEnabled(true);
+                btnNewButton_3.setEnabled(true);
             //help tips 
             System.out.println("===========================");
             System.out.println("Connected to room.......");
@@ -181,7 +191,6 @@ import javax.swing.JTextArea;
                             area.append("\nYou Left!!");
                             System.out.println("You Left!!");
                             break;
-                           
                         } 
                     } 
                 } 
@@ -193,18 +202,18 @@ import javax.swing.JTextArea;
             System.out.println("Invalid Room Key!!!!");
             }
         }
-         void sendTask() throws UnknownHostException,IOException{
+         void sendTask(String msg1) throws UnknownHostException,IOException{
                         // sendMessage thread 
             Thread sendMessage = new Thread(new Runnable()  
             { 
                 @Override
                 public void run(){ 
                     while (true) { 
-
+                            
                       // read the message to deliver.
-                        String msg1 = textField_2.getText();
                         if(!msg1.isEmpty()||msg1!=""){  
                         try { 
+                           
                            // write on the output stream 
                             dos.writeUTF(msg1);//to server
                             break;
@@ -215,35 +224,7 @@ import javax.swing.JTextArea;
                     } 
                 } 
             }); 
-
             sendMessage.start(); 
-            
-        }
-            void logOutTask() throws UnknownHostException,IOException{
-                        // sendMessage thread 
-            Thread sendMessage = new Thread(new Runnable()  
-            { 
-                @Override
-                public void run(){ 
-                    while (true) { 
-
-                      // read the message to deliver.
-                        String msg1 = "logout";
-                        if(!msg1.isEmpty()||msg1!=""){  
-                        try { 
-                           // write on the output stream 
-                            dos.writeUTF(msg1);//to server
-                            break;
-                        } catch (Exception e) { 
-                            e.printStackTrace(); 
-                        }
-                       }
-                    } 
-                } 
-            }); 
-
-            sendMessage.start(); 
-            
         }
         
     } 
