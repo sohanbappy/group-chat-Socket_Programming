@@ -1,8 +1,5 @@
 package com.rockingsocket;
 
-
-
-
 import java.io.*; 
 import java.util.*; 
 import java.net.*; 
@@ -10,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -29,7 +25,6 @@ import javax.swing.JTextArea;
     { 
         //variables 
         private JPanel contentPane;
-	private JTextField textField_1;
         static JTextArea area;
         // Vector to store active clients 
         static Vector<ClientHandler> active = new Vector<>();
@@ -56,14 +51,10 @@ import javax.swing.JTextArea;
 		contentPane.setLayout(null);
 		
                 area = new JTextArea();
-		area.setBounds(28, 105, 330, 400);
-		area.setColumns(10);
 		area.setEditable(false);
-                area.setAutoscrolls(true);
-//              JScrollPane scrollPane = new JScrollPane();
-//		scrollPane.setBounds(389, 66, 841, 202);
-//		area.add(scrollPane);
-		contentPane.add(area);
+                JScrollPane scrollPane = new JScrollPane(area,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+                scrollPane.setBounds(28, 105, 330, 400);
+		contentPane.add(scrollPane);
 		
 		JLabel lblId = new JLabel("*Server Started------");
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 12));

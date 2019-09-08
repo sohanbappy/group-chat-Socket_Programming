@@ -1,11 +1,7 @@
 package com.rockingsocket;
 
-
-
-
 import java.io.*; 
 import java.net.*; 
-import java.util.Scanner; 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -18,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
   
 /**
@@ -57,6 +54,11 @@ import javax.swing.JTextArea;
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+                JLabel title = new JLabel("Rocking Client");
+                title.setFont(new Font("Tahoma", Font.BOLD, 18));
+                title.setBounds(220, 10, 165, 34);
+                contentPane.add(title);
+                
 		textField = new JTextField();
 		textField.setBounds(28, 62, 165, 34);
 		textField.setColumns(10);
@@ -94,17 +96,16 @@ import javax.swing.JTextArea;
                             }
                         }
 		});
-		btnNewButton_2.setBounds(340, 62, 220, 34);
+		btnNewButton_2.setBounds(340, 62, 240, 34);
                 btnNewButton_2.setEnabled(false);
 		contentPane.add(btnNewButton_2);
 		
 		
 		area = new JTextArea();
-		area.setBounds(28, 105, 310, 400);
-		area.setColumns(10);
 		area.setEditable(false);
-                area.setAutoscrolls(true);
-		contentPane.add(area);
+                JScrollPane scrollPane = new JScrollPane(area,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+                scrollPane.setBounds(28, 105, 330, 400);
+		contentPane.add(scrollPane);
 		
 		textField_2 = new JTextField();
 		textField_2.setBounds(28, 510, 310, 34);
@@ -125,26 +126,26 @@ import javax.swing.JTextArea;
                             }
 			}
 		});
-		btnNewButton_3.setBounds(340, 510, 220, 34);
+		btnNewButton_3.setBounds(340, 510, 240, 34);
                 btnNewButton_3.setEnabled(false);
 		contentPane.add(btnNewButton_3);
 		
 		JLabel lblId = new JLabel("*Enter Room Key");
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblId.setForeground(Color.BLACK);
-		lblId.setBounds(340, 130, 200, 20);
+		lblId.setBounds(360, 130, 200, 20);
 		contentPane.add(lblId);
 		
 		JLabel lblId_1 = new JLabel("*Followed by ur typing is ur ID");
 		lblId_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblId_1.setForeground(Color.BLACK);
-		lblId_1.setBounds(340, 155, 200, 20);
+		lblId_1.setBounds(360, 155, 200, 20);
 		contentPane.add(lblId_1);
 		
 		JLabel lblId_2 = new JLabel("*Press logout ==> to left ");
 		lblId_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblId_2.setForeground(Color.BLACK);
-		lblId_2.setBounds(340, 180, 200, 20);
+		lblId_2.setBounds(360, 180, 200, 20);
 		contentPane.add(lblId_2);
                 
            
