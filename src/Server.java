@@ -39,7 +39,7 @@ import javax.swing.JTextArea;
             Server obj = new Server();
         } 
         public Server() throws IOException{
-        //for UI
+                //for UI
                 setBackground(Color.WHITE);
 		setVisible(true);
 		setResizable(false);
@@ -87,41 +87,35 @@ import javax.swing.JTextArea;
         
         
             //here Starts coding for Server
-            // server is listening on port 1234 
             ServerSocket ss = new ServerSocket(1234); 
             area.setText("Server Started---- ");
             area.append("\nRoom Key==> rokomari_intern ");
             area.append("\n===========================");
-            System.out.println("Server Started: ");
-            System.out.println("Room Key: rokomari_intern ");
-            System.out.println("===========================");
             Socket s; 
 
-            // running infinite loop for getting 
-            // client request 
+            /*
+                running infinite loop for getting 
+                client request 
+             */
             while (true)  
             { 
                 // Accept the incoming client request 
                 s = ss.accept();
                 area.append("\nNew client ==>"+s.getPort());
-                System.out.println("New client ==>" +s.getPort()); 
                 
                 // obtain input and output streams 
                 DataInputStream dis = new DataInputStream(s.getInputStream()); 
                 DataOutputStream dos = new DataOutputStream(s.getOutputStream()); 
 
-                // Create a new handler object for handling this request. 
+                // Create a new handler object for handling  request. 
                 ClientHandler client= new ClientHandler(s,"guest#"+s.getPort(), dis, dos);
-                // Create a new Thread with this object. 
                 Thread t = new Thread(client); 
                 // add this client to active clients list 
-                active.add(client); 
-                // start the thread. 
+                active.add(client);  
                 t.start();
                 // increment i for new client.
                 i++; 
-                area.append("\nActive : "+i);
-                System.out.println("Active : "+i); 
+                area.append("\nActive : "+i); 
             } 
         }
     }

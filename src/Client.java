@@ -36,6 +36,7 @@ import javax.swing.JTextArea;
         public static void main(String args[]) throws UnknownHostException, IOException  
         { 
             Client obj = new Client();
+            
         } 
         public Client() throws UnknownHostException, IOException{
         
@@ -144,8 +145,7 @@ import javax.swing.JTextArea;
 		lblId_2.setBounds(340, 180, 200, 20);
 		contentPane.add(lblId_2);
                 
-            Scanner scn = new Scanner(System.in);
-            System.out.println("Enter room keyword to Enter: ");
+           
             area.setText("Enter room keyword to Enter: ");
             
         }
@@ -159,22 +159,15 @@ import javax.swing.JTextArea;
                 btnNewButton_2.setEnabled(true);
                 btnNewButton_3.setEnabled(true);
             //help tips 
-            System.out.println("===========================");
-            System.out.println("Connected to room.......");
-            System.out.println("--Followed by ur typing is ur ID--");
-            System.out.println("type==> logout ==> to left");
-            System.out.println("===========================");
             area.append("\n===========================\nConnected to room.......\n--Followed by ur typing is ur ID--");
             area.append("\ntype==> logout ==> to left\n===========================");
             // getting localhost ip 
-            InetAddress ip = InetAddress.getByName("localhost"); 
-
+            InetAddress ip = InetAddress.getByName("localhost");
             // establish the connection 
             Socket s = new Socket(ip, ServerPort); 
             // obtaining input and out streams 
             DataInputStream dis = new DataInputStream(s.getInputStream()); 
             dos = new DataOutputStream(s.getOutputStream()); 
-
             // readMessage thread 
             Thread readMessage = new Thread(new Runnable()  
             { 
@@ -185,11 +178,9 @@ import javax.swing.JTextArea;
                         try { 
                             // read the message sent from client 
                             String msg = dis.readUTF();
-                            area.append("\n"+msg);
-                            System.out.println(msg); 
+                            area.append("\n"+msg); 
                         } catch (Exception e) { 
                             area.append("\nYou Left!!");
-                            System.out.println("You Left!!");
                             break;
                         } 
                     } 
@@ -199,11 +190,10 @@ import javax.swing.JTextArea;
             
             }else{
             area.append("\nInvalid Room Key!!!!");    
-            System.out.println("Invalid Room Key!!!!");
             }
         }
          void sendTask(String msg1) throws UnknownHostException,IOException{
-                        // sendMessage thread 
+            // sendMessage thread 
             Thread sendMessage = new Thread(new Runnable()  
             { 
                 @Override

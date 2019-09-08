@@ -7,8 +7,7 @@ import java.net.*;
      * @author Bappy
      */
     class ClientHandler implements Runnable  
-    { 
-        Scanner scn = new Scanner(System.in); 
+    {  
         private String name; 
         final DataInputStream dis; 
         final DataOutputStream dos; 
@@ -16,7 +15,7 @@ import java.net.*;
         boolean isloggedin; 
 
 
-        // constructor 
+        // constructor for client
         public ClientHandler(Socket s, String name,DataInputStream dis, DataOutputStream dos) { 
             this.dis = dis; 
             this.dos = dos; 
@@ -38,7 +37,9 @@ import java.net.*;
                     received = dis.readUTF();
                     
                     if(received.equalsIgnoreCase("logout")){
+                    //decrement user
                     --Server.i;
+                    //removing from active users
                     Server.active.remove(this);
                     Server.area.append("\n"+this.name+" left");
                        for (ClientHandler mc : Server.active)  
@@ -57,7 +58,6 @@ import java.net.*;
                     
                 } catch (IOException e) { 
                     Server.area.append("\nSocket shutdown unexpectedly!!!!!");
-                    System.out.println("Socket shutdown unexpectedly!!!!!");
                     break;
                 } 
 
