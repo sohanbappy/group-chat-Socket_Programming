@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
     /**
      *
      * @author Bappy
@@ -25,6 +27,7 @@ import java.awt.Font;
         //variables 
         private JPanel contentPane;
 	private JTextField textField_1;
+        static JTextArea area;
         // Vector to store active clients 
         static Vector<ClientHandler> active = new Vector<>();
         // counter for clients 
@@ -49,11 +52,15 @@ import java.awt.Font;
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(28, 105, 330, 400);
-		textField_1.setColumns(10);
-		textField_1.setEditable(false);
-		contentPane.add(textField_1);
+                area = new JTextArea();
+		area.setBounds(28, 105, 330, 400);
+		area.setColumns(10);
+		area.setEditable(false);
+                area.setAutoscrolls(true);
+//              JScrollPane scrollPane = new JScrollPane();
+//		scrollPane.setBounds(389, 66, 841, 202);
+//		area.add(scrollPane);
+		contentPane.add(area);
 		
 		JLabel lblId = new JLabel("*Server Started------");
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -80,6 +87,9 @@ import java.awt.Font;
             //here Starts coding for Server
             // server is listening on port 1234 
             ServerSocket ss = new ServerSocket(1234); 
+            area.setText("Server Started---- ");
+            area.append("\nRoom Key==> rokomari_intern ");
+            area.append("\n===========================");
             System.out.println("Server Started: ");
             System.out.println("Room Key: rokomari_intern ");
             System.out.println("===========================");
@@ -90,13 +100,13 @@ import java.awt.Font;
             while (true)  
             { 
                 // Accept the incoming client request 
-                s = ss.accept(); 
+                s = ss.accept();
+                area.append("\nNew client ==>"+s.getPort());
                 System.out.println("New client ==>" +s.getPort()); 
-
+                
                 // obtain input and output streams 
                 DataInputStream dis = new DataInputStream(s.getInputStream()); 
                 DataOutputStream dos = new DataOutputStream(s.getOutputStream()); 
-
 
                 // Create a new handler object for handling this request. 
                 ClientHandler client= new ClientHandler(s,"guest#"+s.getPort(), dis, dos);
@@ -105,10 +115,10 @@ import java.awt.Font;
                 // add this client to active clients list 
                 active.add(client); 
                 // start the thread. 
-                t.start(); 
-
+                t.start();
                 // increment i for new client.
                 i++; 
+                area.append("\nActive : "+i);
                 System.out.println("Active : "+i); 
             } 
         }
