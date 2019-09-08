@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
     /**
@@ -78,7 +79,8 @@ import javax.swing.JTextArea;
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			}
+			JOptionPane.showMessageDialog(null, "Rocking Socket\nDeveloped as an assessment!!");
+                        }
 		});
 		btnNewButton_1.setBounds(110, 515, 142, 34);
 		contentPane.add(btnNewButton_1);

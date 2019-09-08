@@ -11,7 +11,7 @@ import java.net.*;
         Scanner scn = new Scanner(System.in); 
         private String name; 
         final DataInputStream dis; 
-        DataOutputStream dos; 
+        final DataOutputStream dos; 
         Socket s; 
         boolean isloggedin; 
 
@@ -48,15 +48,16 @@ import java.net.*;
 
                     }
                         this.isloggedin=false; 
-                        //this.s.close(); 
+                        this.s.close(); 
                         break; 
-                    } 
+                    }else{ 
 
                     for (ClientHandler mc : Server.active)  
                     {   
                         mc.dos.writeUTF(this.name+" : "+received); 
 
                     }
+                   }
                       
                 } catch (IOException e) { 
                     Server.area.append("\nSocket shutdown unexpectedly!!!!!");
