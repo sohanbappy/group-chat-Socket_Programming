@@ -4,23 +4,80 @@
 import java.io.*; 
 import java.util.*; 
 import java.net.*; 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Font;
     /**
      *
      * @author Bappy
      */
 
  
-    public class Server  
+    public class Server extends JFrame  
     { 
-
+        //variables 
+        private JPanel contentPane;
+	private JTextField textField_1;
         // Vector to store active clients 
-        static Vector<ClientHandler> active = new Vector<>(); 
-
+        static Vector<ClientHandler> active = new Vector<>();
         // counter for clients 
         static int i = 0; 
-
+        
         public static void main(String[] args) throws IOException  
         { 
+            Server obj = new Server();
+        } 
+        public Server() throws IOException{
+        //for UI
+                setBackground(Color.WHITE);
+		setVisible(true);
+		setResizable(false);
+		setTitle("Server Module");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setBounds(200,50, 400, 610);
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.PINK);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(28, 105, 330, 400);
+		textField_1.setColumns(10);
+		textField_1.setEditable(false);
+		contentPane.add(textField_1);
+		
+		JLabel lblId = new JLabel("*Server Started------");
+		lblId.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblId.setForeground(Color.BLACK);
+		lblId.setBounds(35, 20, 200, 20);
+		contentPane.add(lblId);
+		
+		JLabel lblId_1 = new JLabel("*Room Key==> rokomari_intern");
+		lblId_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblId_1.setForeground(Color.BLACK);
+		lblId_1.setBounds(35, 50, 250, 20);
+		contentPane.add(lblId_1);
+		
+		JButton btnNewButton_1 = new JButton("About");
+		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnNewButton_1.setBounds(110, 515, 142, 34);
+		contentPane.add(btnNewButton_1);
+        
+        
+            //here Starts coding for Server
             // server is listening on port 1234 
             ServerSocket ss = new ServerSocket(1234); 
             System.out.println("Server Started: ");
@@ -42,23 +99,17 @@ import java.net.*;
 
 
                 // Create a new handler object for handling this request. 
-                ClientHandler client= new ClientHandler(s,"guest#"+s.getPort(), dis, dos); 
-
+                ClientHandler client= new ClientHandler(s,"guest#"+s.getPort(), dis, dos);
                 // Create a new Thread with this object. 
                 Thread t = new Thread(client); 
-
-
                 // add this client to active clients list 
                 active.add(client); 
-
                 // start the thread. 
                 t.start(); 
 
-                // increment i for new client. 
-                // i is used for naming only, and can be replaced 
-                // by any naming scheme 
+                // increment i for new client.
                 i++; 
                 System.out.println("Active : "+i); 
             } 
-        } 
+        }
     }
